@@ -14,7 +14,9 @@ import {
   Option,
   Switch,
   Checkbox,
-  CheckboxGroup
+  CheckboxGroup,
+  Pagination,
+  Dialog
 } from 'element-ui'
 
 // import Header from '@/components/Header'
@@ -36,5 +38,7 @@ export default {
       .use(Select)
       .use(Option)
       .use(Switch)
+      .use(Pagination)
+      .use(Dialog)
   }
 }

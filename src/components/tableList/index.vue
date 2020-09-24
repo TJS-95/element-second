@@ -1,37 +1,25 @@
 <template>
-  <el-table :data="data" ref="multipleTable" style="width: 100%" v-bind="$attrs" v-on="$listeners">
+  <el-table
+    :data="data"
+    ref="multipleTable"
+    style="width: 100%"
+    v-bind="$attrs"
+    v-on="$listeners"
+  >
     <template v-for="item in columns">
       <el-table-column
-        v-if="item.slot || item.type == 'expand'"
+        v-bind="[item]"
         :key="item.label"
-        :prop="item.prop"
-        :type="item.type"
-        :label="item.label"
-        :fixed="item.fixed"
-        :align="item.align || align"
-        :header-align="item.headerAlign"
-        :column-key="item.columnKey"
-        :sortable="item.sortable"
-        :width="item.width || ''"
-        :resizable="item.resizable"
+        v-if="item.enableSlot || item.type == 'expand'"
       >
         <template slot-scope="scope">
           <slot :name="item.prop || item.type" :items="scope.row"></slot>
         </template>
       </el-table-column>
       <el-table-column
-        v-else
+        v-bind="[item]"
         :key="item.label"
-        :prop="item.prop"
-        :type="item.type"
-        :label="item.label"
-        :fixed="item.fixed"
-        :align="item.align || align"
-        :header-align="item.headerAlign"
-        :column-key="item.columnKey"
-        :sortable="item.sortable"
-        :width="item.width || ''"
-        :resizable="item.resizable"
+        v-else
       ></el-table-column>
     </template>
   </el-table>
@@ -42,12 +30,7 @@ export default {
   props: {
     data: { type: Array, required: true, default: () => [] },
     columns: { type: Array, required: true, default: () => [] },
-    // stripe: { tyep: Boolean, default: false },
-    // border: { tyep: Boolean, default: false },
-    // size: { type: String, default: "mini" },
-    // defaultSort: { type: Object, default: () => {} },
     selectionChange: Function,
-    align: { type: String, default: "left" },
     isAll: { type: Boolean, default: false },
     onRowClick: Function,
   },

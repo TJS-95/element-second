@@ -1,6 +1,11 @@
 <template>
-  <div>
-    <form-group :inline="true" :model="model" :form="form" @on-click="onClick"></form-group>
+  <div class="bg-white p-2">
+    <form-group
+      :inline="true"
+      :model="model"
+      :form="form"
+      @on-click="onClick"
+    ></form-group>
     <table-list
       :data="tableData"
       :columns="columns"
@@ -10,13 +15,32 @@
       @selection-change="change"
       @row-click="row"
     >
-      <template #expand="{items}">
-        <el-button type="primary" @click="print(items)">删除</el-button>
+      <template #expand="{ items }">
+        <table-list
+          :data="tableData"
+          :columns="columns"
+          align="center"
+          :border="true"
+          :stripe="true"
+          @selection-change="change"
+          @row-click="row"
+        >
+          {{ items }}
+        </table-list>
       </template>
-      <template #op="{items}">
+      <template #op="{ items }">
         <el-button type="primary" @click="print(items)">删除</el-button>
       </template>
     </table-list>
+    <el-pagination layout="prev, pager, next" :total="50"></el-pagination>
+    <el-dialog title="表单" :visible.sync="dialogVisible" width="25%">
+      <form-group
+        label-width="80px"
+        :model="model"
+        :form="form"
+        @on-click="onClick"
+      ></form-group>
+    </el-dialog>
   </div>
 </template>
 
@@ -30,6 +54,7 @@ export default {
   },
   data() {
     return {
+      dialogVisible: false,
       model: {
         key: 12,
         select: 2,
@@ -40,6 +65,20 @@ export default {
           node: "input",
           prop: "key",
           label: "区块",
+          placeholder: "请输入",
+          rules: [{ required: true, message: "账号不能为空" }],
+        },
+        {
+          node: "input",
+          prop: "key1",
+          label: "label",
+          placeholder: "请输入",
+          rules: [{ required: true, message: "账号不能为空" }],
+        },
+        {
+          node: "input",
+          prop: "key2",
+          label: "label",
           placeholder: "请输入",
           rules: [{ required: true, message: "账号不能为空" }],
         },
@@ -71,22 +110,7 @@ export default {
             },
           ],
         },
-        {
-          node: "buttons",
-          buttons: [
-            {
-              type: "primary",
-              label: "搜索",
-              event: "search",
-            },
-            {
-              type: "info",
-              label: "重置",
-              event: "reset",
-              nativeType: "reset",
-            },
-          ],
-        },
+
         {
           node: "switch",
           event: "switch",
@@ -106,6 +130,22 @@ export default {
             {
               value: "选项3",
               label: 3,
+            },
+          ],
+        },
+        {
+          node: "buttons",
+          buttons: [
+            {
+              type: "primary",
+              label: "搜索",
+              event: "search",
+            },
+            {
+              type: "info",
+              label: "重置",
+              event: "reset",
+              nativeType: "reset",
             },
           ],
         },
@@ -179,6 +219,7 @@ export default {
         {
           label: "姓名",
           prop: "name",
+          width: "200",
         },
         {
           label: "省份",
@@ -200,7 +241,7 @@ export default {
         {
           label: "操作",
           prop: "op",
-          slot: true,
+          enableSlot: true,
         },
       ],
     };
